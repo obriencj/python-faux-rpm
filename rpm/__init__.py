@@ -25,16 +25,34 @@ from .transaction import *
 
 from typing import Tuple
 
+
 __version_info__: Tuple[str, str, str] = ('4', '18', '2')
 
 ts = TransactionSet
 
-def headerLoad(*args, **kwds): ...
-def readHeaderListFromFD(file_desc, retrofit: bool = ...): ...
-def readHeaderListFromFile(path, retrofit: bool = ...): ...
-def readHeaderFromFD(file_desc): ...
-def signalsCaught(siglist): ...
-def dsSingle(TagN, N, EVR: str = ..., Flags=...): ...
+
+def headerLoad(*args, **kwds):
+    pass
+
+
+def readHeaderListFromFD(file_desc, retrofit: bool = ...):
+    pass
+
+
+def readHeaderListFromFile(path, retrofit: bool = ...):
+    pass
+
+
+def readHeaderFromFD(file_desc):
+    pass
+
+
+def signalsCaught(siglist):
+    pass
+
+
+def dsSingle(TagN, N, EVR: str = ..., Flags=...):
+    pass
 
 
 # The end.

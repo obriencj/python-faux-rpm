@@ -20,7 +20,7 @@ Faux RPM -- lookalike rpm package which does nothing
 """
 
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 HEADERCONV_COMPRESSFILELIST: int = 1
@@ -502,282 +502,354 @@ header_magic: b'\x8e\xad\xe8\x01\x00\x00\x00\x00'
 
 
 tagnames: Dict[int, str] = {
-  61: 'HEADERIMAGE',
-  62: 'HEADERSIGNATURES',
-  63: 'HEADERIMMUTABLE',
-  64: 'HEADERREGIONS',
-  100: 'HEADERI18NTABLE',
-  257: 'SIGSIZE',
-  259: 'SIGPGP',
-  261: 'SIGMD5',
-  262: 'SIGGPG',
-  266: 'PUBKEYS',
-  267: 'DSAHEADER',
-  268: 'RSAHEADER',
-  269: 'SHA1HEADER',
-  270: 'LONGSIGSIZE',
-  271: 'LONGARCHIVESIZE',
-  273: 'SHA256HEADER',
-  276: 'VERITYSIGNATURES',
-  277: 'VERITYSIGNATUREALGO',
-  1000: 'NAME',
-  1001: 'VERSION',
-  1002: 'RELEASE',
-  1003: 'EPOCH',
-  1004: 'SUMMARY',
-  1005: 'DESCRIPTION',
-  1006: 'BUILDTIME',
-  1007: 'BUILDHOST',
-  1008: 'INSTALLTIME',
-  1009: 'SIZE',
-  1010: 'DISTRIBUTION',
-  1011: 'VENDOR',
-  1012: 'GIF',
-  1013: 'XPM',
-  1014: 'LICENSE',
-  1015: 'PACKAGER',
-  1016: 'GROUP',
-  1018: 'SOURCE',
-  1019: 'PATCH',
-  1020: 'URL',
-  1021: 'OS',
-  1022: 'ARCH',
-  1023: 'PREIN',
-  1024: 'POSTIN',
-  1025: 'PREUN',
-  1026: 'POSTUN',
-  1027: 'OLDFILENAMES',
-  1028: 'FILESIZES',
-  1029: 'FILESTATES',
-  1030: 'FILEMODES',
-  1033: 'FILERDEVS',
-  1034: 'FILEMTIMES',
-  1035: 'FILEMD5S',
-  1036: 'FILELINKTOS',
-  1037: 'FILEFLAGS',
-  1039: 'FILEUSERNAME',
-  1040: 'FILEGROUPNAME',
-  1043: 'ICON',
-  1044: 'SOURCERPM',
-  1045: 'FILEVERIFYFLAGS',
-  1046: 'ARCHIVESIZE',
-  1047: 'PROVIDES',
-  1048: 'REQUIREFLAGS',
-  1049: 'REQUIRES',
-  1050: 'REQUIREVERSION',
-  1051: 'NOSOURCE',
-  1052: 'NOPATCH',
-  1053: 'CONFLICTFLAGS',
-  1054: 'CONFLICTS',
-  1055: 'CONFLICTVERSION',
-  1059: 'EXCLUDEARCH',
-  1060: 'EXCLUDEOS',
-  1061: 'EXCLUSIVEARCH',
-  1062: 'EXCLUSIVEOS',
-  1064: 'RPMVERSION',
-  1065: 'TRIGGERSCRIPTS',
-  1066: 'TRIGGERNAME',
-  1067: 'TRIGGERVERSION',
-  1068: 'TRIGGERFLAGS',
-  1069: 'TRIGGERINDEX',
-  1079: 'VERIFYSCRIPT',
-  1080: 'CHANGELOGTIME',
-  1081: 'CHANGELOGNAME',
-  1082: 'CHANGELOGTEXT',
-  1085: 'PREINPROG',
-  1086: 'POSTINPROG',
-  1087: 'PREUNPROG',
-  1088: 'POSTUNPROG',
-  1089: 'BUILDARCHS',
-  1090: 'OBSOLETES',
-  1091: 'VERIFYSCRIPTPROG',
-  1092: 'TRIGGERSCRIPTPROG',
-  1094: 'COOKIE',
-  1095: 'FILEDEVICES',
-  1096: 'FILEINODES',
-  1097: 'FILELANGS',
-  1098: 'PREFIXES',
-  1099: 'INSTPREFIXES',
-  1106: 'SOURCEPACKAGE',
-  1112: 'PROVIDEFLAGS',
-  1113: 'PROVIDEVERSION',
-  1114: 'OBSOLETEFLAGS',
-  1115: 'OBSOLETEVERSION',
-  1116: 'DIRINDEXES',
-  1117: 'BASENAMES',
-  1118: 'DIRNAMES',
-  1119: 'ORIGDIRINDEXES',
-  1120: 'ORIGBASENAMES',
-  1121: 'ORIGDIRNAMES',
-  1122: 'OPTFLAGS',
-  1123: 'DISTURL',
-  1124: 'PAYLOADFORMAT',
-  1125: 'PAYLOADCOMPRESSOR',
-  1126: 'PAYLOADFLAGS',
-  1127: 'INSTALLCOLOR',
-  1128: 'INSTALLTID',
-  1129: 'REMOVETID',
-  1132: 'PLATFORM',
-  1133: 'PATCHESNAME',
-  1134: 'PATCHESFLAGS',
-  1135: 'PATCHESVERSION',
-  1140: 'FILECOLORS',
-  1141: 'FILECLASS',
-  1142: 'CLASSDICT',
-  1143: 'FILEDEPENDSX',
-  1144: 'FILEDEPENDSN',
-  1145: 'DEPENDSDICT',
-  1146: 'SOURCEPKGID',
-  1147: 'FILECONTEXTS',
-  1148: 'FSCONTEXTS',
-  1149: 'RECONTEXTS',
-  1150: 'POLICIES',
-  1151: 'PRETRANS',
-  1152: 'POSTTRANS',
-  1153: 'PRETRANSPROG',
-  1154: 'POSTTRANSPROG',
-  1155: 'DISTTAG',
-  1156: 'OLDSUGGESTSNAME',
-  1157: 'OLDSUGGESTSVERSION',
-  1158: 'OLDSUGGESTSFLAGS',
-  1159: 'OLDENHANCESNAME',
-  1160: 'OLDENHANCESVERSION',
-  1161: 'OLDENHANCESFLAGS',
-  1195: 'DBINSTANCE',
-  1196: 'NVRA',
-  5000: 'FILENAMES',
-  5001: 'FILEPROVIDE',
-  5002: 'FILEREQUIRE',
-  5005: 'TRIGGERCONDS',
-  5006: 'TRIGGERTYPE',
-  5007: 'ORIGFILENAMES',
-  5008: 'LONGFILESIZES',
-  5009: 'LONGSIZE',
-  5010: 'FILECAPS',
-  5011: 'FILEDIGESTALGO',
-  5012: 'BUGURL',
-  5013: 'EVR',
-  5014: 'NVR',
-  5015: 'NEVR',
-  5016: 'NEVRA',
-  5017: 'HEADERCOLOR',
-  5018: 'VERBOSE',
-  5019: 'EPOCHNUM',
-  5020: 'PREINFLAGS',
-  5021: 'POSTINFLAGS',
-  5022: 'PREUNFLAGS',
-  5023: 'POSTUNFLAGS',
-  5024: 'PRETRANSFLAGS',
-  5025: 'POSTTRANSFLAGS',
-  5026: 'VERIFYSCRIPTFLAGS',
-  5027: 'TRIGGERSCRIPTFLAGS',
-  5030: 'POLICYNAMES',
-  5031: 'POLICYTYPES',
-  5032: 'POLICYTYPESINDEXES',
-  5033: 'POLICYFLAGS',
-  5034: 'VCS',
-  5035: 'ORDERNAME',
-  5036: 'ORDERVERSION',
-  5037: 'ORDERFLAGS',
-  5040: 'INSTFILENAMES',
-  5041: 'REQUIRENEVRS',
-  5042: 'PROVIDENEVRS',
-  5043: 'OBSOLETENEVRS',
-  5044: 'CONFLICTNEVRS',
-  5045: 'FILENLINKS',
-  5046: 'RECOMMENDS',
-  5047: 'RECOMMENDVERSION',
-  5048: 'RECOMMENDFLAGS',
-  5049: 'SUGGESTS',
-  5050: 'SUGGESTVERSION',
-  5051: 'SUGGESTFLAGS',
-  5052: 'SUPPLEMENTS',
-  5053: 'SUPPLEMENTVERSION',
-  5054: 'SUPPLEMENTFLAGS',
-  5055: 'ENHANCES',
-  5056: 'ENHANCEVERSION',
-  5057: 'ENHANCEFLAGS',
-  5058: 'RECOMMENDNEVRS',
-  5059: 'SUGGESTNEVRS',
-  5060: 'SUPPLEMENTNEVRS',
-  5061: 'ENHANCENEVRS',
-  5062: 'ENCODING',
-  5066: 'FILETRIGGERSCRIPTS',
-  5067: 'FILETRIGGERSCRIPTPROG',
-  5068: 'FILETRIGGERSCRIPTFLAGS',
-  5069: 'FILETRIGGERNAME',
-  5070: 'FILETRIGGERINDEX',
-  5071: 'FILETRIGGERVERSION',
-  5072: 'FILETRIGGERFLAGS',
-  5076: 'TRANSFILETRIGGERSCRIPTS',
-  5077: 'TRANSFILETRIGGERSCRIPTPROG',
-  5078: 'TRANSFILETRIGGERSCRIPTFLAGS',
-  5079: 'TRANSFILETRIGGERNAME',
-  5080: 'TRANSFILETRIGGERINDEX',
-  5081: 'TRANSFILETRIGGERVERSION',
-  5082: 'TRANSFILETRIGGERFLAGS',
-  5084: 'FILETRIGGERPRIORITIES',
-  5085: 'TRANSFILETRIGGERPRIORITIES',
-  5086: 'FILETRIGGERCONDS',
-  5087: 'FILETRIGGERTYPE',
-  5088: 'TRANSFILETRIGGERCONDS',
-  5089: 'TRANSFILETRIGGERTYPE',
-  5090: 'FILESIGNATURES',
-  5091: 'FILESIGNATURELENGTH',
-  5092: 'PAYLOADDIGEST',
-  5093: 'PAYLOADDIGESTALGO',
-  5096: 'MODULARITYLABEL',
-  5097: 'PAYLOADDIGESTALT',
-  5098: 'ARCHSUFFIX',
-  5099: 'SPEC',
-  5100: 'TRANSLATIONURL',
-  5101: 'UPSTREAMRELEASES',
+    61: 'HEADERIMAGE',
+    62: 'HEADERSIGNATURES',
+    63: 'HEADERIMMUTABLE',
+    64: 'HEADERREGIONS',
+    100: 'HEADERI18NTABLE',
+    257: 'SIGSIZE',
+    259: 'SIGPGP',
+    261: 'SIGMD5',
+    262: 'SIGGPG',
+    266: 'PUBKEYS',
+    267: 'DSAHEADER',
+    268: 'RSAHEADER',
+    269: 'SHA1HEADER',
+    270: 'LONGSIGSIZE',
+    271: 'LONGARCHIVESIZE',
+    273: 'SHA256HEADER',
+    276: 'VERITYSIGNATURES',
+    277: 'VERITYSIGNATUREALGO',
+    1000: 'NAME',
+    1001: 'VERSION',
+    1002: 'RELEASE',
+    1003: 'EPOCH',
+    1004: 'SUMMARY',
+    1005: 'DESCRIPTION',
+    1006: 'BUILDTIME',
+    1007: 'BUILDHOST',
+    1008: 'INSTALLTIME',
+    1009: 'SIZE',
+    1010: 'DISTRIBUTION',
+    1011: 'VENDOR',
+    1012: 'GIF',
+    1013: 'XPM',
+    1014: 'LICENSE',
+    1015: 'PACKAGER',
+    1016: 'GROUP',
+    1018: 'SOURCE',
+    1019: 'PATCH',
+    1020: 'URL',
+    1021: 'OS',
+    1022: 'ARCH',
+    1023: 'PREIN',
+    1024: 'POSTIN',
+    1025: 'PREUN',
+    1026: 'POSTUN',
+    1027: 'OLDFILENAMES',
+    1028: 'FILESIZES',
+    1029: 'FILESTATES',
+    1030: 'FILEMODES',
+    1033: 'FILERDEVS',
+    1034: 'FILEMTIMES',
+    1035: 'FILEMD5S',
+    1036: 'FILELINKTOS',
+    1037: 'FILEFLAGS',
+    1039: 'FILEUSERNAME',
+    1040: 'FILEGROUPNAME',
+    1043: 'ICON',
+    1044: 'SOURCERPM',
+    1045: 'FILEVERIFYFLAGS',
+    1046: 'ARCHIVESIZE',
+    1047: 'PROVIDES',
+    1048: 'REQUIREFLAGS',
+    1049: 'REQUIRES',
+    1050: 'REQUIREVERSION',
+    1051: 'NOSOURCE',
+    1052: 'NOPATCH',
+    1053: 'CONFLICTFLAGS',
+    1054: 'CONFLICTS',
+    1055: 'CONFLICTVERSION',
+    1059: 'EXCLUDEARCH',
+    1060: 'EXCLUDEOS',
+    1061: 'EXCLUSIVEARCH',
+    1062: 'EXCLUSIVEOS',
+    1064: 'RPMVERSION',
+    1065: 'TRIGGERSCRIPTS',
+    1066: 'TRIGGERNAME',
+    1067: 'TRIGGERVERSION',
+    1068: 'TRIGGERFLAGS',
+    1069: 'TRIGGERINDEX',
+    1079: 'VERIFYSCRIPT',
+    1080: 'CHANGELOGTIME',
+    1081: 'CHANGELOGNAME',
+    1082: 'CHANGELOGTEXT',
+    1085: 'PREINPROG',
+    1086: 'POSTINPROG',
+    1087: 'PREUNPROG',
+    1088: 'POSTUNPROG',
+    1089: 'BUILDARCHS',
+    1090: 'OBSOLETES',
+    1091: 'VERIFYSCRIPTPROG',
+    1092: 'TRIGGERSCRIPTPROG',
+    1094: 'COOKIE',
+    1095: 'FILEDEVICES',
+    1096: 'FILEINODES',
+    1097: 'FILELANGS',
+    1098: 'PREFIXES',
+    1099: 'INSTPREFIXES',
+    1106: 'SOURCEPACKAGE',
+    1112: 'PROVIDEFLAGS',
+    1113: 'PROVIDEVERSION',
+    1114: 'OBSOLETEFLAGS',
+    1115: 'OBSOLETEVERSION',
+    1116: 'DIRINDEXES',
+    1117: 'BASENAMES',
+    1118: 'DIRNAMES',
+    1119: 'ORIGDIRINDEXES',
+    1120: 'ORIGBASENAMES',
+    1121: 'ORIGDIRNAMES',
+    1122: 'OPTFLAGS',
+    1123: 'DISTURL',
+    1124: 'PAYLOADFORMAT',
+    1125: 'PAYLOADCOMPRESSOR',
+    1126: 'PAYLOADFLAGS',
+    1127: 'INSTALLCOLOR',
+    1128: 'INSTALLTID',
+    1129: 'REMOVETID',
+    1132: 'PLATFORM',
+    1133: 'PATCHESNAME',
+    1134: 'PATCHESFLAGS',
+    1135: 'PATCHESVERSION',
+    1140: 'FILECOLORS',
+    1141: 'FILECLASS',
+    1142: 'CLASSDICT',
+    1143: 'FILEDEPENDSX',
+    1144: 'FILEDEPENDSN',
+    1145: 'DEPENDSDICT',
+    1146: 'SOURCEPKGID',
+    1147: 'FILECONTEXTS',
+    1148: 'FSCONTEXTS',
+    1149: 'RECONTEXTS',
+    1150: 'POLICIES',
+    1151: 'PRETRANS',
+    1152: 'POSTTRANS',
+    1153: 'PRETRANSPROG',
+    1154: 'POSTTRANSPROG',
+    1155: 'DISTTAG',
+    1156: 'OLDSUGGESTSNAME',
+    1157: 'OLDSUGGESTSVERSION',
+    1158: 'OLDSUGGESTSFLAGS',
+    1159: 'OLDENHANCESNAME',
+    1160: 'OLDENHANCESVERSION',
+    1161: 'OLDENHANCESFLAGS',
+    1195: 'DBINSTANCE',
+    1196: 'NVRA',
+    5000: 'FILENAMES',
+    5001: 'FILEPROVIDE',
+    5002: 'FILEREQUIRE',
+    5005: 'TRIGGERCONDS',
+    5006: 'TRIGGERTYPE',
+    5007: 'ORIGFILENAMES',
+    5008: 'LONGFILESIZES',
+    5009: 'LONGSIZE',
+    5010: 'FILECAPS',
+    5011: 'FILEDIGESTALGO',
+    5012: 'BUGURL',
+    5013: 'EVR',
+    5014: 'NVR',
+    5015: 'NEVR',
+    5016: 'NEVRA',
+    5017: 'HEADERCOLOR',
+    5018: 'VERBOSE',
+    5019: 'EPOCHNUM',
+    5020: 'PREINFLAGS',
+    5021: 'POSTINFLAGS',
+    5022: 'PREUNFLAGS',
+    5023: 'POSTUNFLAGS',
+    5024: 'PRETRANSFLAGS',
+    5025: 'POSTTRANSFLAGS',
+    5026: 'VERIFYSCRIPTFLAGS',
+    5027: 'TRIGGERSCRIPTFLAGS',
+    5030: 'POLICYNAMES',
+    5031: 'POLICYTYPES',
+    5032: 'POLICYTYPESINDEXES',
+    5033: 'POLICYFLAGS',
+    5034: 'VCS',
+    5035: 'ORDERNAME',
+    5036: 'ORDERVERSION',
+    5037: 'ORDERFLAGS',
+    5040: 'INSTFILENAMES',
+    5041: 'REQUIRENEVRS',
+    5042: 'PROVIDENEVRS',
+    5043: 'OBSOLETENEVRS',
+    5044: 'CONFLICTNEVRS',
+    5045: 'FILENLINKS',
+    5046: 'RECOMMENDS',
+    5047: 'RECOMMENDVERSION',
+    5048: 'RECOMMENDFLAGS',
+    5049: 'SUGGESTS',
+    5050: 'SUGGESTVERSION',
+    5051: 'SUGGESTFLAGS',
+    5052: 'SUPPLEMENTS',
+    5053: 'SUPPLEMENTVERSION',
+    5054: 'SUPPLEMENTFLAGS',
+    5055: 'ENHANCES',
+    5056: 'ENHANCEVERSION',
+    5057: 'ENHANCEFLAGS',
+    5058: 'RECOMMENDNEVRS',
+    5059: 'SUGGESTNEVRS',
+    5060: 'SUPPLEMENTNEVRS',
+    5061: 'ENHANCENEVRS',
+    5062: 'ENCODING',
+    5066: 'FILETRIGGERSCRIPTS',
+    5067: 'FILETRIGGERSCRIPTPROG',
+    5068: 'FILETRIGGERSCRIPTFLAGS',
+    5069: 'FILETRIGGERNAME',
+    5070: 'FILETRIGGERINDEX',
+    5071: 'FILETRIGGERVERSION',
+    5072: 'FILETRIGGERFLAGS',
+    5076: 'TRANSFILETRIGGERSCRIPTS',
+    5077: 'TRANSFILETRIGGERSCRIPTPROG',
+    5078: 'TRANSFILETRIGGERSCRIPTFLAGS',
+    5079: 'TRANSFILETRIGGERNAME',
+    5080: 'TRANSFILETRIGGERINDEX',
+    5081: 'TRANSFILETRIGGERVERSION',
+    5082: 'TRANSFILETRIGGERFLAGS',
+    5084: 'FILETRIGGERPRIORITIES',
+    5085: 'TRANSFILETRIGGERPRIORITIES',
+    5086: 'FILETRIGGERCONDS',
+    5087: 'FILETRIGGERTYPE',
+    5088: 'TRANSFILETRIGGERCONDS',
+    5089: 'TRANSFILETRIGGERTYPE',
+    5090: 'FILESIGNATURES',
+    5091: 'FILESIGNATURELENGTH',
+    5092: 'PAYLOADDIGEST',
+    5093: 'PAYLOADDIGESTALGO',
+    5096: 'MODULARITYLABEL',
+    5097: 'PAYLOADDIGESTALT',
+    5098: 'ARCHSUFFIX',
+    5099: 'SPEC',
+    5100: 'TRANSLATIONURL',
+    5101: 'UPSTREAMRELEASES',
 }
 
 
 class archive:
-    def close(self) -> Any: ...
-    def hascontent(self) -> Any: ...
-    def read(self, size = ...) -> Any: ...
-    def readto(self, fd, nodigest = ...) -> Any: ...
-    def tell(self) -> Any: ...
-    def write(self, buffer) -> Any: ...
-    def writeto(self, fd) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def close(self) -> Any:
+        pass
+
+    def hascontent(self) -> Any:
+        pass
+
+    def read(
+            self,
+            size: Optional[int] = None) -> Any:
+        pass
+
+    def readto(self, fd, nodigest=None) -> Any:
+        pass
+
+    def tell(self) -> Any:
+        pass
+
+    def write(self, buffer) -> Any:
+        pass
+
+    def writeto(self, fd) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class ds:
     def __init__(self, *args, **kwargs):
         pass
 
-    def Color(self, *args, **kwargs) -> Any: ...
-    def Compare(self, *args, **kwargs) -> Any: ...
-    def Count(self, *args, **kwargs) -> Any: ...
-    def DNEVR(self, *args, **kwargs) -> Any: ...
-    def EVR(self, *args, **kwargs) -> Any: ...
-    def Find(self, *args, **kwargs) -> Any: ...
-    def Flags(self, *args, **kwargs) -> Any: ...
-    def Instance(self) -> Any: ...
-    def IsReverse(self) -> Any: ...
-    def IsRich(self) -> Any: ...
-    def IsWeak(self) -> Any: ...
-    def Ix(self, *args, **kwargs) -> Any: ...
-    def Merge(self, *args, **kwargs) -> Any: ...
-    def N(self, *args, **kwargs) -> Any: ...
-    def Rpmlib(self, *args, **kwargs) -> Any: ...
-    def Search(self, *args, **kwargs) -> Any: ...
-    def SetNoPromote(self, noPromote) -> Any: ...
-    def Sort(self, *args, **kwargs) -> Any: ...
-    def TagN(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __getitem__(self, index) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __len__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def Color(self, *args, **kwargs) -> Any:
+        pass
+
+    def Compare(self, *args, **kwargs) -> Any:
+        pass
+
+    def Count(self, *args, **kwargs) -> Any:
+        pass
+
+    def DNEVR(self, *args, **kwargs) -> Any:
+        pass
+
+    def EVR(self, *args, **kwargs) -> Any:
+        pass
+
+    def Find(self, *args, **kwargs) -> Any:
+        pass
+
+    def Flags(self, *args, **kwargs) -> Any:
+        pass
+
+    def Instance(self) -> Any:
+        pass
+
+    def IsReverse(self) -> Any:
+        pass
+
+    def IsRich(self) -> Any:
+        pass
+
+    def IsWeak(self) -> Any:
+        pass
+
+    def Ix(self, *args, **kwargs) -> Any:
+        pass
+
+    def Merge(self, *args, **kwargs) -> Any:
+        pass
+
+    def N(self, *args, **kwargs) -> Any:
+        pass
+
+    def Rpmlib(self, *args, **kwargs) -> Any:
+        pass
+
+    def Search(self, *args, **kwargs) -> Any:
+        pass
+
+    def SetNoPromote(self, noPromote) -> Any:
+        pass
+
+    def Sort(self, *args, **kwargs) -> Any:
+        pass
+
+    def TagN(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __getitem__(self, index) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __len__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class error(Exception):
@@ -793,53 +865,131 @@ class fd:
     def __init__(self, *args, **kwargs):
         pass
 
-    def close(self, *args, **kwargs) -> Any: ...
-    def fileno(self, *args, **kwargs) -> Any: ...
-    def flush(self, *args, **kwargs) -> Any: ...
-    def isatty(self, *args, **kwargs) -> Any: ...
+    def close(self, *args, **kwargs) -> Any:
+        pass
+
+    def fileno(self, *args, **kwargs) -> Any:
+        pass
+
+    def flush(self, *args, **kwargs) -> Any:
+        pass
+
+    def isatty(self, *args, **kwargs) -> Any:
+        pass
+
     @classmethod
-    def open(cls, *args, **kwargs) -> Any: ...
-    def read(self, *args, **kwargs) -> Any: ...
-    def seek(self, *args, **kwargs) -> Any: ...
-    def tell(self, *args, **kwargs) -> Any: ...
-    def write(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def open(cls, *args, **kwargs) -> "fd":
+        pass
+
+    def read(self, *args, **kwargs) -> Any:
+        pass
+
+    def seek(self, *args, **kwargs) -> Any:
+        pass
+
+    def tell(self, *args, **kwargs) -> Any:
+        pass
+
+    def write(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class fi:
     def __init__(self, *args, **kwargs):
         pass
 
-    def BN(self) -> Any: ...
-    def DC(self) -> Any: ...
-    def DN(self) -> Any: ...
-    def DX(self) -> Any: ...
-    def Digest(self, *args, **kwargs) -> Any: ...
-    def FC(self) -> Any: ...
-    def FClass(self, *args, **kwargs) -> Any: ...
-    def FColor(self, *args, **kwargs) -> Any: ...
-    def FFlags(self) -> Any: ...
-    def FGroup(self, *args, **kwargs) -> Any: ...
-    def FLink(self, *args, **kwargs) -> Any: ...
-    def FLinks(self, *args, **kwargs) -> Any: ...
-    def FMode(self) -> Any: ...
-    def FMtime(self, *args, **kwargs) -> Any: ...
-    def FN(self) -> Any: ...
-    def FRdev(self, *args, **kwargs) -> Any: ...
-    def FSize(self, *args, **kwargs) -> Any: ...
-    def FState(self) -> Any: ...
-    def FUser(self, *args, **kwargs) -> Any: ...
-    def FX(self) -> Any: ...
-    def FindFN(self, pathname) -> Any: ...
-    def MD5(self, *args, **kwargs) -> Any: ...
-    def VFlags(self) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __getitem__(self, index) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __len__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def BN(self) -> Any:
+        pass
+
+    def DC(self) -> Any:
+        pass
+
+    def DN(self) -> Any:
+        pass
+
+    def DX(self) -> Any:
+        pass
+
+    def Digest(self, *args, **kwargs) -> Any:
+        pass
+
+    def FC(self) -> Any:
+        pass
+
+    def FClass(self, *args, **kwargs) -> Any:
+        pass
+
+    def FColor(self, *args, **kwargs) -> Any:
+        pass
+
+    def FFlags(self) -> Any:
+        pass
+
+    def FGroup(self, *args, **kwargs) -> Any:
+        pass
+
+    def FLink(self, *args, **kwargs) -> Any:
+        pass
+
+    def FLinks(self, *args, **kwargs) -> Any:
+        pass
+
+    def FMode(self) -> Any:
+        pass
+
+    def FMtime(self, *args, **kwargs) -> Any:
+        pass
+
+    def FN(self) -> Any:
+        pass
+
+    def FRdev(self, *args, **kwargs) -> Any:
+        pass
+
+    def FSize(self, *args, **kwargs) -> Any:
+        pass
+
+    def FState(self) -> Any:
+        pass
+
+    def FUser(self, *args, **kwargs) -> Any:
+        pass
+
+    def FX(self) -> Any:
+        pass
+
+    def FindFN(self, pathname) -> Any:
+        pass
+
+    def MD5(self, *args, **kwargs) -> Any:
+        pass
+
+    def VFlags(self) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __getitem__(self, index) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __len__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class file:
@@ -872,10 +1022,17 @@ class file:
     veritysig: Any
     vflags: Any
 
-    def matches(self, *args, **kwargs) -> Any: ...
-    def verify(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def matches(self, *args, **kwargs) -> Any:
+        pass
+
+    def verify(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class files:
@@ -883,13 +1040,26 @@ class files:
     def __init__(self, *args, **kwargs):
         pass
 
-    def archive(self, fd, write = ...) -> Any: ...
-    def find(self, filename, orig = ...) -> Any: ...
-    def __contains__(self, other) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __getitem__(self, index) -> Any: ...
-    def __len__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def archive(self, fd, write=None) -> Any:
+        pass
+
+    def find(self, filename, orig=None) -> Any:
+        pass
+
+    def __contains__(self, other) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __getitem__(self, index) -> Any:
+        pass
+
+    def __len__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class hdr:
@@ -897,38 +1067,94 @@ class hdr:
     def __init__(self, *args, **kwargs):
         pass
 
-    def compressFilelist(self, *args, **kwargs) -> Any: ...
-    def convert(self, op = ...) -> Any: ...
-    def dsFromHeader(self, to = ..., flags = ...) -> Any: ...
-    def dsOfHeader(self) -> Any: ...
-    def expandFilelist(self, *args, **kwargs) -> Any: ...
-    def fiFromHeader(self) -> Any: ...
-    def format(self, format) -> Any: ...
-    def fullFilelist(self, *args, **kwargs) -> Any: ...
-    def isSource(self) -> Any: ...
-    def keys(self) -> Any: ...
-    def sprintf(self, *args, **kwargs) -> Any: ...
-    def unload(self) -> Any: ...
-    def write(self, file, magic = ...) -> Any: ...
-    def __contains__(self, other) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __delitem__(self, other) -> Any: ...
-    def __getitem__(self, index) -> Any: ...
-    def __hash__(self) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __reduce__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
-    def __setitem__(self, index, object) -> Any: ...
+    def compressFilelist(self, *args, **kwargs) -> Any:
+        pass
+
+    def convert(self, op=None) -> Any:
+        pass
+
+    def dsFromHeader(self, to=None, flags=None) -> Any:
+        pass
+
+    def dsOfHeader(self) -> Any:
+        pass
+
+    def expandFilelist(self, *args, **kwargs) -> Any:
+        pass
+
+    def fiFromHeader(self) -> Any:
+        pass
+
+    def format(self, format) -> Any:
+        pass
+
+    def fullFilelist(self, *args, **kwargs) -> Any:
+        pass
+
+    def isSource(self) -> Any:
+        pass
+
+    def keys(self) -> Any:
+        pass
+
+    def sprintf(self, *args, **kwargs) -> Any:
+        pass
+
+    def unload(self) -> Any:
+        pass
+
+    def write(self, file, magic=None) -> Any:
+        pass
+
+    def __contains__(self, other) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __delitem__(self, other) -> Any:
+        pass
+
+    def __getitem__(self, index) -> Any:
+        pass
+
+    def __hash__(self) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __reduce__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
+
+    def __setitem__(self, index, object) -> Any:
+        pass
 
 
 class ii:
-    def instances(self, *args, **kwargs) -> Any: ...
-    def __bool__(self) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def instances(self, *args, **kwargs) -> Any:
+        pass
+
+    def __bool__(self) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class keyring:
@@ -936,21 +1162,43 @@ class keyring:
     def __init__(self, *args, **kwargs):
         pass
 
-    def addKey(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def addKey(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class mi:
-    def count(self, *args, **kwargs) -> Any: ...
-    def instance(self) -> Any: ...
-    def pattern(self, TagN, mire_type, pattern) -> Any: ...
-    def __bool__(self) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __len__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def count(self, *args, **kwargs) -> Any:
+        pass
+
+    def instance(self) -> Any:
+        pass
+
+    def pattern(self, TagN, mire_type, pattern) -> Any:
+        pass
+
+    def __bool__(self) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __len__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class prob:
@@ -961,8 +1209,11 @@ class prob:
     pkgNEVR: Any
     type: Any
 
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class pubkey:
@@ -970,9 +1221,14 @@ class pubkey:
     def __init__(self, *args, **kwargs):
         pass
 
-    def base64(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def base64(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class spec:
@@ -996,8 +1252,11 @@ class specPkg:
     header: Any
     policyList: Any
 
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class strpool:
@@ -1005,41 +1264,103 @@ class strpool:
     def __init__(self, *args, **kwargs):
         pass
 
-    def freeze(self, *args, **kwargs) -> Any: ...
-    def id2str(self, *args, **kwargs) -> Any: ...
-    def str2id(self, *args, **kwargs) -> Any: ...
-    def unfreeze(self, *args, **kwargs) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __getitem__(self, index) -> Any: ...
-    def __len__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def freeze(self, *args, **kwargs) -> Any:
+        pass
+
+    def id2str(self, *args, **kwargs) -> Any:
+        pass
+
+    def str2id(self, *args, **kwargs) -> Any:
+        pass
+
+    def unfreeze(self, *args, **kwargs) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __getitem__(self, index) -> Any:
+        pass
+
+    def __len__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class te:
-    def A(self) -> Any: ...
-    def Color(self) -> Any: ...
-    def DBOffset(self) -> Any: ...
-    def DS(self, TagN) -> Any: ...
-    def E(self) -> Any: ...
-    def FI(self, TagN) -> Any: ...
-    def Failed(self) -> Any: ...
-    def Files(self) -> Any: ...
-    def Key(self) -> Any: ...
-    def N(self) -> Any: ...
-    def NEVR(self) -> Any: ...
-    def NEVRA(self) -> Any: ...
-    def O(self) -> Any: ...
-    def Parent(self) -> Any: ...
-    def PkgFileSize(self) -> Any: ...
-    def Problems(self) -> Any: ...
-    def R(self) -> Any: ...
-    def SetUserdata(self) -> Any: ...
-    def Type(self) -> Any: ...
-    def Userdata(self) -> Any: ...
-    def V(self) -> Any: ...
-    def Verified(self) -> Any: ...
-    def __delattr__(self, name) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def A(self) -> Any:
+        pass
+
+    def Color(self) -> Any:
+        pass
+
+    def DBOffset(self) -> Any:
+        pass
+
+    def DS(self, TagN) -> Any:
+        pass
+
+    def E(self) -> Any:
+        pass
+
+    def FI(self, TagN) -> Any:
+        pass
+
+    def Failed(self) -> Any:
+        pass
+
+    def Files(self) -> Any:
+        pass
+
+    def Key(self) -> Any:
+        pass
+
+    def N(self) -> Any:
+        pass
+
+    def NEVR(self) -> Any:
+        pass
+
+    def NEVRA(self) -> Any:
+        pass
+
+    def O(self) -> Any:
+        pass
+
+    def Parent(self) -> Any:
+        pass
+
+    def PkgFileSize(self) -> Any:
+        pass
+
+    def Problems(self) -> Any:
+        pass
+
+    def R(self) -> Any:
+        pass
+
+    def SetUserdata(self) -> Any:
+        pass
+
+    def Type(self) -> Any:
+        pass
+
+    def Userdata(self) -> Any:
+        pass
+
+    def V(self) -> Any:
+        pass
+
+    def Verified(self) -> Any:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class ts:
@@ -1057,34 +1378,89 @@ class ts:
     def __init__(self, *args, **kwargs):
         pass
 
-    def addErase(self, name) -> Any: ...
-    def addInstall(self, hdr, data, mode) -> Any: ...
-    def addReinstall(self, hdr, data) -> Any: ...
-    def addRestore(self, hdr) -> Any: ...
-    def check(self, *args, **kwargs) -> Any: ...
-    def clean(self) -> Any: ...
-    def clear(self) -> None: ...
-    def closeDB(self) -> None: ...
-    def dbCookie(self, *args, **kwargs) -> Any: ...
-    def dbIndex(self, TagN) -> ii: ...
-    def dbMatch(self, *args, **kwargs) -> Any: ...
-    def getKeyring(self, autoload = ...) -> Any: ...
-    def hdrCheck(self, hdrblob) -> Any: ...
-    def hdrFromFdno(self, fdno) -> hdr: ...
-    def initDB(self) -> None: ...
-    def openDB(self) -> Any: ...
-    def order(self) -> Any: ...
-    def pgpImportPubkey(self, pubkey) -> Any: ...
-    def pgpPrtPkts(self, octets) -> Any: ...
-    def problems(self) -> Any: ...
-    def rebuildDB(self) -> None: ...
-    def run(self, *args, **kwargs) -> Any: ...
-    def setKeyring(self, keyring) -> Any: ...
-    def verifyDB(self) -> None: ...
-    def __delattr__(self, name) -> Any: ...
-    def __iter__(self) -> Any: ...
-    def __next__(self) -> Any: ...
-    def __setattr__(self, name, value) -> Any: ...
+    def addErase(self, name) -> Any:
+        pass
+
+    def addInstall(self, hdr, data, mode) -> Any:
+        pass
+
+    def addReinstall(self, hdr, data) -> Any:
+        pass
+
+    def addRestore(self, hdr) -> Any:
+        pass
+
+    def check(self, *args, **kwargs) -> Any:
+        pass
+
+    def clean(self) -> Any:
+        pass
+
+    def clear(self) -> None:
+        pass
+
+    def closeDB(self) -> None:
+        pass
+
+    def dbCookie(self, *args, **kwargs) -> Any:
+        pass
+
+    def dbIndex(self, TagN) -> ii:
+        pass
+
+    def dbMatch(self, *args, **kwargs) -> Any:
+        pass
+
+    def getKeyring(self, autoload=None) -> Any:
+        pass
+
+    def hdrCheck(self, hdrblob) -> Any:
+        pass
+
+    def hdrFromFdno(self, fdno) -> hdr:
+        pass
+
+    def initDB(self) -> None:
+        pass
+
+    def openDB(self) -> Any:
+        pass
+
+    def order(self) -> Any:
+        pass
+
+    def pgpImportPubkey(self, pubkey) -> Any:
+        pass
+
+    def pgpPrtPkts(self, octets) -> Any:
+        pass
+
+    def problems(self) -> Any:
+        pass
+
+    def rebuildDB(self) -> None:
+        pass
+
+    def run(self, *args, **kwargs) -> Any:
+        pass
+
+    def setKeyring(self, keyring) -> Any:
+        pass
+
+    def verifyDB(self) -> None:
+        pass
+
+    def __delattr__(self, name) -> Any:
+        pass
+
+    def __iter__(self) -> Any:
+        pass
+
+    def __next__(self) -> Any:
+        pass
+
+    def __setattr__(self, name, value) -> Any:
+        pass
 
 
 class ver:
@@ -1097,24 +1473,76 @@ class ver:
         pass
 
 
-def addMacro(*args, **kwargs) -> Any: ...
-def addSign(*args, **kwargs) -> Any: ...
-def archscore(archname) -> Any: ...
-def blockSignals(*args, **kwargs) -> Any: ...
-def checkSignals() -> Any: ...
-def delMacro(*args, **kwargs) -> Any: ...
-def delSign(*args, **kwargs) -> Any: ...
-def expandMacro(string, numeric = ...) -> Any: ...
-def labelCompare(version0, version1) -> Any: ...
-def log(level, msg) -> Any: ...
-def mergeHeaderListFromFD(*args, **kwargs) -> Any: ...
-def reloadConfig(target = ...) -> Any: ...
-def setInterruptSafety(on = ...) -> Any: ...
-def setLogFile(file) -> Any: ...
-def setStats(bool) -> Any: ...
-def setVerbosity(level) -> Any: ...
-def signalCaught(signo) -> Any: ...
-def versionCompare(version0, version1) -> Any: ...
+def addMacro(*args, **kwargs) -> Any:
+    pass
+
+
+def addSign(*args, **kwargs) -> Any:
+    pass
+
+
+def archscore(archname) -> Any:
+    pass
+
+
+def blockSignals(*args, **kwargs) -> Any:
+    pass
+
+
+def checkSignals() -> Any:
+    pass
+
+
+def delMacro(*args, **kwargs) -> Any:
+    pass
+
+
+def delSign(*args, **kwargs) -> Any:
+    pass
+
+
+def expandMacro(string, numeric=None) -> Any:
+    pass
+
+
+def labelCompare(version0, version1) -> Any:
+    pass
+
+
+def log(level, msg) -> Any:
+    pass
+
+
+def mergeHeaderListFromFD(*args, **kwargs) -> Any:
+    pass
+
+
+def reloadConfig(target=None) -> Any:
+    pass
+
+
+def setInterruptSafety(on=None) -> Any:
+    pass
+
+
+def setLogFile(file) -> Any:
+    pass
+
+
+def setStats(bool) -> Any:
+    pass
+
+
+def setVerbosity(level) -> Any:
+    pass
+
+
+def signalCaught(signo) -> Any:
+    pass
+
+
+def versionCompare(version0, version1) -> Any:
+    pass
 
 
 # The end.
