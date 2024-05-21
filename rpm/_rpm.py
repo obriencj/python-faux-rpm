@@ -1501,8 +1501,8 @@ def delSign(*args, **kwargs) -> Any:
     pass
 
 
-def expandMacro(string, numeric=None) -> Any:
-    pass
+def expandMacro(string, numeric=None) -> str:
+    return ""
 
 
 def labelCompare(version0, version1) -> Any:
