@@ -7,10 +7,10 @@ tool needs to be run against a package with an rpm dependency, but
 where it does not actually invoke any code paths that would trigger
 the use of that dependency.
 
-My personal use case is with [MyPy]'s `stubtest` tool, where I have
-been writing stubs for a module which imports rpm. At no point do I
-need to actually execute anything, I simply need the import to not
-fail.
+My personal use case is with [MyPy]'s `stubtest` and `stubgen` tools.
+I have been writing stubs for a module which imports rpm. At no point
+do I need to actually execute anything, I simply need the import to not
+fail. This project allowed me to continue on a non-RPM host machine.
 
 [MyPy]: https://mypylang.org
 
