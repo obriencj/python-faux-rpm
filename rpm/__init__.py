@@ -28,18 +28,18 @@ from typing import Tuple
 
 __version_info__: Tuple[str, str, str] = ('4', '18', '2')
 
-ts = TransactionSet
+ts = TransactionSet  # type: ignore
 
 
 def headerLoad(*args, **kwds):
     pass
 
 
-def readHeaderListFromFD(file_desc, retrofit: bool = ...):
+def readHeaderListFromFD(file_desc, retrofit: bool = True):
     pass
 
 
-def readHeaderListFromFile(path, retrofit: bool = ...):
+def readHeaderListFromFile(path, retrofit: bool = True):
     pass
 
 
@@ -51,7 +51,7 @@ def signalsCaught(siglist):
     pass
 
 
-def dsSingle(TagN, N, EVR: str = ..., Flags=...):
+def dsSingle(TagN, N, EVR: str = '', Flags: int = 0):
     pass
 
 

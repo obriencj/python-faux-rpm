@@ -24,26 +24,65 @@ from ._rpm import ts as TransactionSetCore
 
 
 class TransactionSet(TransactionSetCore):
-    def setVSFlags(self, flags): ...
-    def getVSFlags(self): ...
-    def setVfyFlags(self, flags): ...
-    def getVfyFlags(self): ...
-    def getVfyLevel(self): ...
-    def setVfyLevel(self, flags): ...
-    def setColor(self, color): ...
-    def setPrefColor(self, color): ...
-    def setFlags(self, flags): ...
-    def setProbFilter(self, ignoreSet): ...
-    def parseSpec(self, specfile): ...
-    def getKeys(self): ...
-    def addInstall(self, item, key, how: str = ...) -> None: ...
-    def addReinstall(self, item, key) -> None: ...
-    def addErase(self, item) -> None: ...
-    def addRestore(self, item) -> None: ...
-    def run(self, callback, data): ...
-    def check(self, *args, **kwds): ...
-    def hdrCheck(self, blob) -> None: ...
-    def hdrFromFdno(self, fd): ...
+    def setVSFlags(self, flags):
+        pass
+
+    def getVSFlags(self):
+        pass
+
+    def setVfyFlags(self, flags):
+        pass
+
+    def getVfyFlags(self):
+        pass
+
+    def getVfyLevel(self):
+        pass
+
+    def setVfyLevel(self, flags):
+        pass
+
+    def setColor(self, color):
+        pass
+
+    def setPrefColor(self, color):
+        pass
+
+    def setFlags(self, flags):
+        pass
+
+    def setProbFilter(self, ignoreSet):
+        pass
+
+    def parseSpec(self, specfile):
+        pass
+
+    def getKeys(self):
+        pass
+
+    def addInstall(self, item, key, how: str = ...) -> None:
+        pass
+
+    def addReinstall(self, item, key) -> None:
+        pass
+
+    def addErase(self, item) -> None:
+        pass
+
+    def addRestore(self, item) -> None:
+        pass
+
+    def run(self, callback, data):
+        pass
+
+    def check(self, *args, **kwds):
+        pass
+
+    def hdrCheck(self, blob) -> None:
+        pass
+
+    def hdrFromFdno(self, fd):
+        pass
 
 
 # The end.

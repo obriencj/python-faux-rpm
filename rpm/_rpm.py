@@ -20,7 +20,7 @@ Faux RPM -- lookalike rpm package which does nothing
 """
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Literal, Optional, Union, overload
 
 
 HEADERCONV_COMPRESSFILELIST: int = 1
@@ -498,7 +498,7 @@ _RPMVSF_NOPAYLOAD: int = 983040
 _RPMVSF_NOSIGNATURES: int = 789504
 
 
-header_magic: b'\x8e\xad\xe8\x01\x00\x00\x00\x00'
+header_magic: bytes = b'\x8e\xad\xe8\x01\x00\x00\x00\x00'
 
 
 tagnames: Dict[int, str] = {
@@ -1501,8 +1501,23 @@ def delSign(*args, **kwargs) -> Any:
     pass
 
 
-def expandMacro(string, numeric=None) -> str:
-    return ""
+@overload
+def expandMacro(string: str) -> str:
+    return ''
+
+
+@overload
+def expandMacro(string: str, numeric: Literal[False]) -> str:
+    return ''
+
+
+@overload
+def expandMacro(string: str, numeric: Literal[True]) -> int:
+    return 0
+
+
+def expandMacro(string: str, numeric: bool = False) -> Union[str, int]:
+    return 0 if numeric else ''
 
 
 def labelCompare(version0, version1) -> Any:
@@ -1517,11 +1532,11 @@ def mergeHeaderListFromFD(*args, **kwargs) -> Any:
     pass
 
 
-def reloadConfig(target=None) -> Any:
+def reloadConfig(target: Optional[str] = None) -> Any:
     pass
 
 
-def setInterruptSafety(on=None) -> Any:
+def setInterruptSafety(on: bool = True) -> Any:
     pass
 
 
